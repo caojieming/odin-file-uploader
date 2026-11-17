@@ -1,0 +1,34 @@
+{
+  "name": "nodejs-express-template",
+  "version": "1.0.0",
+  "description": "Repository Template for NodeJS + Express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "node --watch app.js",
+    "popdev": "node db/populateDevDb.js",
+    "popprod": "node db/populateProdDb.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caojieming/nodejs-express-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/caojieming/nodejs-express-template/issues"
+  },
+  "homepage": "https://github.com/caojieming/nodejs-express-template#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.22.0"
+  }
+}
