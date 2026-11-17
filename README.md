@@ -7,9 +7,25 @@ Deployed and live at:
 TODO:
 - 
 
+
+## Useful commands/other info
+
 Run `npm i` to install all packages/dev dependencies.<br>
 Run `npm outdated` to check if any packages are outdated (can generally ignore yellow packages: current version is the wanted version, but not the latest version).<br>
 Run `npm update` to update outdated packages.
+
+Main schema is in `./prisma/schema.prisma`
+Connector/adapter (from this local project's prisma to DB) is in `./lib/prisma.js`
+Prisma code (to add entries/query the DB) is in `./script.js`
+
+`npx prisma` to view some handy commands + check if installed correctly (optional)
+
+`npx prisma migrate dev --name init` to create (compile?) schema tables
+`npx prisma generate` to generate Prisma files (for the schema tables?)
+
+`node script.js` to run script.js, adding a new user to the DB table and printing all users to terminal
+`npx prisma studio` opens a browser visual of DB table
+
 
 ## Extra (personal) notes on deploying servers
 1. create new project in Render, and a new DB in Neon
@@ -37,3 +53,6 @@ Default server link: http://localhost:8080/
 - passport
 - passport-local
 - bcryptjs
+- prisma
+  - npm install prisma@prev --save-dev
+  - npm install @prisma/client@7 @prisma/adapter-pg pg dotenv
