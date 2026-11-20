@@ -5,26 +5,35 @@ Basically a stripped down version of Google Drive (or any other personal storage
 Deployed and live at: 
 
 TODO:
-- 
+- convert everything to ESM (currently a gross mix of ESM for prisma files and CommonJS everywhere else that bothers me)
+  - I'm confused: it previously ran just fine despite having mixed ESM and CommonJS, but now it throws an error.
+  - Whatever, just convert it
 
 
 ## Useful commands/other info
 
 Run `npm i` to install all packages/dev dependencies.<br>
 Run `npm outdated` to check if any packages are outdated (can generally ignore yellow packages: current version is the wanted version, but not the latest version).<br>
-Run `npm update` to update outdated packages.
+Run `npm update` to update outdated packages.<br>
 
-Main schema is in `./prisma/schema.prisma`
-Connector/adapter (from this local project's prisma to DB) is in `./lib/prisma.js`
-Prisma code (to add entries/query the DB) is in `./script.js`
+Main schema is in `./prisma/schema.prisma`<br>
+Connector/adapter (from this local project's prisma to DB) is in `./lib/prisma.js`<br>
+Prisma code (to add entries/query the DB) is in `./script.js`<br>
 
-`npx prisma` to view some handy commands + check if installed correctly (optional)
+Note: if you want to see the tables synced over to the PostGreSQL DB, you need to prefix the table name with `public.` and use quotes around the table name. For example: `select * from public."Post";`
 
-`npx prisma migrate dev --name init` to create (compile?) schema tables
-`npx prisma generate` to generate Prisma files (for the schema tables?)
 
-`node script.js` to run script.js, adding a new user to the DB table and printing all users to terminal
-`npx prisma studio` opens a browser visual of DB table
+installed packages:<br>
+`npm install prisma@prev --save-dev`<br>
+`npm install @prisma/client@7 @prisma/adapter-pg pg dotenv`<br>
+
+`npx prisma` to view some handy commands + check if installed correctly (optional)<br>
+
+`npx prisma migrate dev --name init` to migrate/sync schema tables over to DB (`--name init` just names the migration "init", and is not needed after the first migration)<br>
+`npx prisma generate` to generate Prisma schema tables<br>
+
+`node script.js` to run script.js, adding a new user to the DB table and printing all users to terminal<br>
+`npx prisma studio` opens a browser visual of DB table<br>
 
 
 ## Extra (personal) notes on deploying servers
@@ -56,3 +65,4 @@ Default server link: http://localhost:8080/
 - prisma
   - npm install prisma@prev --save-dev
   - npm install @prisma/client@7 @prisma/adapter-pg pg dotenv
+- @quixo3/prisma-session-store

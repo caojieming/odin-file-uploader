@@ -1,19 +1,19 @@
-// load .env variables if it exists
-try {
-  process.loadEnvFile();
-} catch(error) {}
+// load .env file if it exists
+process.loadEnvFile();
 
 const path = require("node:path");
 const { Pool } = require("pg");
 const express = require("express");
-const session = require("express-session");
+const expressSession = require("express-session");
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 
 const passport = require("./auth/authController");
+const { prisma } = require('./lib/prisma.js');
 
 
 const pool = new Pool({
   // add your configuration
-  connectionString: process.env.LOCAL_DB_URL
+  connectionString: process.env.DATABASE_URL
 });
 
 // standard express app setup
@@ -27,9 +27,29 @@ app.set("view engine", "ejs");
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
+// persists sessions in the database (whatever that means)
+app.use(
+  expressSession({
+    cookie: {
+     maxAge: 7 * 24 * 60 * 60 * 1000 // ms
+    },
+    secret: 'a santa at nasa',
+    resave: true,
+    saveUninitialized: true,
+    store: new PrismaSessionStore(
+      prisma,
+      {
+        checkPeriod: 2 * 60 * 1000,  //ms
+        dbRecordIdIsSessionId: true,
+        dbRecordIdFunction: undefined,
+      }
+    )
+  })
+);
+
 // middleware setup
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
-app.use(passport.session());
+// app.use(expressSession({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.expressSession());
 app.use(express.urlencoded({ extended: false }));
 
 // allows user to be stored as currentUser in locals, so you won’t have to manually pass it into all of the controllers in which you need it (just reference locals.currentUser)
